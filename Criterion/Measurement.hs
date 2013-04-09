@@ -21,7 +21,7 @@ module Criterion.Measurement
     ) where
 
 import Control.Monad (when)
-import Data.Time.Clock.POSIX (getPOSIXTime)
+import qualified System.Clock as Clock (Clock(Monotonic), getTime, sec, nsec)
 import Text.Printf (printf)
 
 time :: IO a -> IO (Double, a)
@@ -40,7 +40,11 @@ time_ act = do
   return $! end - start
 
 getTime :: IO Double
-getTime = realToFrac `fmap` getPOSIXTime
+getTime = tSpecToDouble `fmap` Clock.getTime Clock.Monotonic
+  where
+    tSpecToDouble x = (s x) + (ns x)
+    ns x = (fromIntegral $ Clock.nsec x) * 1.0e-9
+    s x = fromIntegral $ Clock.sec x
 
 runForAtLeast :: Double -> Int -> (Int -> IO a) -> IO (Double, Int, a)
 runForAtLeast howLong initSeed act = loop initSeed (0::Int) =<< getTime

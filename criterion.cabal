@@ -58,6 +58,7 @@ library
     aeson >= 0.3.2.12,
     base < 5,
     bytestring >= 0.9 && < 1.0,
+    clock  >= 0.3 && < 0.4,
     containers,
     deepseq >= 1.1.0.0,
     directory,
@@ -68,7 +69,6 @@ library
     mwc-random >= 0.8.0.3,
     parsec >= 3.1.0,
     statistics >= 0.10.0.0,
-    time,
     transformers,
     vector >= 0.7.1,
     vector-algorithms >= 0.4
